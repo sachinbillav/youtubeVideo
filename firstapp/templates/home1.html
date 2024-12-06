@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download YouTube Video</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background: #e61313;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        .progress-bar-inner {
+            height: 20px;
+            width: 0;
+            background-color: #28a745;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Download YouTube Video</h1>
+        <form method="POST" action="{% url 'index' %}">
+            {% csrf_token %}
+            <input type="text" name="youtube_link" placeholder="YouTube video link to download">
+            <button type="submit">Download</button>
+        </form>
+        <div class="progress-bar">
+            <div class="progress-bar-inner"></div>
+        </div>
+    </div>
+    <script>
+        const button = document.querySelector('button');
+        const progressBarInner = document.querySelector('.progress-bar-inner');
+
+        button.addEventListener('click', (event) => {
+            //event.preventDefault(); // Prevent form submission for demo purposes
+            progressBarInner.style.width = '0%';
+            let progress = 0;
+            const interval = setInterval(() => {
+                if (progress >= 100) {
+                    clearInterval(interval);
+                } else {
+                    progress += 10;
+                    progressBarInner.style.width = progress + '%';
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>
